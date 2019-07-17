@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+export PATH="$HOME/bin:$PATH";
+
+[[ -z "${PS1:-}" ]] && return
+
+readonly BASHRC_PATH=$(python -c 'import sys; import os.path; print(os.path.realpath(sys.argv[1]))' "${BASH_SOURCE[0]}")
+readonly DOTFILES_PATH=$(dirname ${BASHRC_PATH})
+readonly ROOT_PATH=$(dirname ${DOTFILES_PATH})
+readonly SYSTEM_INSTALLATION_DIR=${ROOT_PATH}/system
+
+
+for file in "${DOTFILES_PATH}/../system"/*; do
+  [ -r "$file" ] && [ -f "$file" ] && source "$file";
+done;
+unset file;
+
+# Case-insensitive globbing (used in pathname expansion)
+shopt -s nocaseglob;
+
+# Append to the Bash history file, rather than overwriting it
+shopt -s histappend;
+
+# Autocorrect typos in path names when using `cd`
+shopt -s cdspell;
+
+# Enable some Bash 4 features when possible:
+# * `autocd`, e.g. `**/qux` will enter `./foo/bar/baz/qux`
+# * Recursive globbing, e.g. `echo **/*.txt`
+for option in autocd globstar; do
+  shopt -s "$option" 2> /dev/null;
+done;
+
+
+if [[ -e "${HOME}/extrarc" ]]; then
+  source "${HOME}/.extrarc"
+fi
+
+
