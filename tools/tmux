@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -o nounset -o pipefail -o errexit
+
+install() {
+  if command -v brew > /dev/null 2>&1; then
+  	echo "Install"
+    brew install tmux reattach-to-user-namespace
+  fi
+}
+
+install

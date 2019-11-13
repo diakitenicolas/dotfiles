@@ -1,6 +1,6 @@
 [user]
 	name = Nicolas Diakite
-	email = nicolas.diakite@eyone.net
+	email = diakitenicolas@gmail.com
 
 [credential]
 	helper = osxkeychain
@@ -32,9 +32,9 @@
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
 	filehistory = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --
 	linehistory = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' -L
-	dlocal="!f() {git git branch -d \"$1\"}; f"
-	dremote="!f() { git push origin --delete \"$1\"}; f"
-	dremote="!f() { git push origin --delete \"$1\"}; f"
+	dlocal="!f() { git branch -D \"$1\";}; f"
+	dremote="!f() { git push origin --delete \"$1\";}; f"
+	dremote="!f() { git push origin --delete \"$1\";}; f"
 
 [push]
 	default = current

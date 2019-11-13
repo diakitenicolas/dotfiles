@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+install() {	
+
+	local CONF_FILENAME="${CURRENT_DIR}/conf/ssh"
+
+
+	if [ ! -d "${HOME}/.ssh" ] ; then
+		echo ".ssh not exists, ssh installation is not continued"
+		return 
+	fi
+
+	if [ -f "${HOME}/.ssh/config" ] ; then
+   		echo "Making backup of .ssh/confg to .ssh/configbackup"
+		mv "${HOME}/.ssh/config" "${HOME}/.ssh/configbackup";
+		find "${HOME}/.ssh/" -name "config_*" -type f -exec cat {} + >> "${HOME}/.ssh/config"
+	fi
+
+}
+
+install

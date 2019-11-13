@@ -1,0 +1,6 @@
+
+#!/usr/bin/env bash
+
+export N_PREFIX="${HOME}/usr/local"
+export PATH="$N_PREFIX/bin:${PATH}"
+alias npmi="npm install --ignore-scripts"

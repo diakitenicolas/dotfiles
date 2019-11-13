@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+
+clean() {
+  if command -v npm > /dev/null 2>&1; then
+    npm cache clean --force
+  fi
+}
+
+install() {
+
+  if ! command -v git > /dev/null 2>&1; then
+    echo "git is required"
+    exit
+  fi
+
+  if ! command -v make > /dev/null 2>&1; then
+    echo "make is required"
+    exit
+  fi
+
+  local CONF_FILENAME="${CURRENT_DIR}/conf/node"
+  local NODE_VERSION="latest"
+
+  mkdir -p "${HOME}/usr/local/bin"
+  curl -L https://raw.githubusercontent.com/tj/n/master/bin/n -o "${HOME}/usr/local/bin/n"
+  chmod u+x "${HOME}/usr/local/bin/n"
+
+  source "${CONF_FILENAME}"
+  n "${NODE_VERSION}"
+}
+
+clean
+install

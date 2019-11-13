@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+install() {
+
+	local CONF_FILENAME="${CURRENT_DIR}/conf/pass"
+
+	if ! command -v brew > /dev/null 2>&1; then
+	    echo "brew is required"
+    	exit
+	fi
+
+	if ! command -v pass > /dev/null 2>&1; then
+	    brew install pass;
+	fi
+
+
+	if ! command -v pass > /dev/null 2>&1; then
+    	echo "pass is required"
+  		return
+	fi
+
+	local PASS_DIR=${HOME}/.password-store
+	if [[ ! -d "${PASS_DIR}" ]]; then
+	    echo "Pass-store must be initiliazed"
+	  	return
+	fi
+	pass git pull;
+
+}
+
+install 	

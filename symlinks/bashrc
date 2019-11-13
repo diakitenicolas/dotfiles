@@ -4,32 +4,40 @@ export PATH="$HOME/bin:$PATH";
 
 [[ -z "${PS1:-}" ]] && return
 
-readonly BASHRC_PATH=$(python -c 'import sys; import os.path; print(os.path.realpath(sys.argv[1]))' "${BASH_SOURCE[0]}")
-readonly DOTFILES_PATH=$(dirname ${BASHRC_PATH})
-readonly ROOT_PATH=$(dirname ${DOTFILES_PATH})
-readonly SYSTEM_INSTALLATION_DIR=${ROOT_PATH}/system
+main(){
+	
+	
+	BASHRC_PATH="$(python -c 'import sys; import os.path; print(os.path.realpath(sys.argv[1]))' "${BASH_SOURCE[0]}")"
+	local DOTFILES_PATH="$(dirname "${BASHRC_PATH}")"
+	
+	for file in "${DOTFILES_PATH}/../conf"/*; do
+  		[ -r "$file" ] && [ -f "$file" ] && source "$file";
+	done;
+}
 
+misc(){
+	# Case-insensitive globbing (used in pathname expansion)
+	shopt -s nocaseglob;
 
-for file in "${DOTFILES_PATH}/../system"/*; do
-  [ -r "$file" ] && [ -f "$file" ] && source "$file";
-done;
-unset file;
+	# Append to the Bash history file, rather than overwriting it
+	shopt -s histappend;
 
-# Case-insensitive globbing (used in pathname expansion)
-shopt -s nocaseglob;
+	# Autocorrect typos in path names when using `cd`
+	shopt -s cdspell;
 
-# Append to the Bash history file, rather than overwriting it
-shopt -s histappend;
+	# Enable some Bash 4 features when possible:
+	# * `autocd`, e.g. `**/qux` will enter `./foo/bar/baz/qux`
+	# * Recursive globbing, e.g. `echo **/*.txt`
+	#for option in autocd globstar; do
+	#  shopt -s "$option" 2> /dev/null;
+	#done;
 
-# Autocorrect typos in path names when using `cd`
-shopt -s cdspell;
+}
 
-# Enable some Bash 4 features when possible:
-# * `autocd`, e.g. `**/qux` will enter `./foo/bar/baz/qux`
-# * Recursive globbing, e.g. `echo **/*.txt`
-for option in autocd globstar; do
-  shopt -s "$option" 2> /dev/null;
-done;
+main
+
+misc
+
 
 
 if [[ -e "${HOME}/extrarc" ]]; then
@@ -37,3 +45,6 @@ if [[ -e "${HOME}/extrarc" ]]; then
 fi
 
 
+# Delete locales functions
+unset -f main
+unset -f misc
