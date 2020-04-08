@@ -5,14 +5,21 @@ export PATH="$HOME/bin:$PATH";
 [[ -z "${PS1:-}" ]] && return
 
 main(){
-	
-	
 	BASHRC_PATH="$(python -c 'import sys; import os.path; print(os.path.realpath(sys.argv[1]))' "${BASH_SOURCE[0]}")"
 	local DOTFILES_PATH="$(dirname "${BASHRC_PATH}")"
 	
 	for file in "${DOTFILES_PATH}/../conf"/*; do
   		[ -r "$file" ] && [ -f "$file" ] && source "$file";
 	done;
+}
+
+
+function readConfFile(){
+	
+  	local PROCESS_DATA_FILE_PATH="$DOTFILES_PATH/../PROCESS_DATA"
+  	pattern_to_find=${1}
+  	local rezult=$( grep ^$pattern_to_find ${PROCESS_DATA_FILE_PATH} | cut -d '=' -f2) 
+  	echo $rezult
 }
 
 misc(){
@@ -34,8 +41,9 @@ misc(){
 
 }
 
-main
 
+
+main
 misc
 
 

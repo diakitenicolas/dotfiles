@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
+#Postgresql
+alias pg-start="pg_ctl -D /usr/local/var/postgres start"
+alias pg-stop="pg_ctl -D /usr/local/var/postgres stop"
+alias pg-restart="pg_ctl -D /usr/local/var/postgres restart"
 
 # Detect which `ls` flavor is in use
-
 alias cl="clear"
 
 
@@ -20,9 +23,10 @@ alias dt="cd ~/Desktop"
 alias dev="cd ~/Documents/dev/"
 alias eclipse="cd ~/Documents/dev/workspacePhoton/"
 alias devops="cd ~/Documents/devops/"
-alias infra="cd ~/Documents/devops/ey-infra"
-alias github="cd ~/Documents/dev/perso/github"
-alias dotfiles="cd ~/Documents/dev/perso/github/dotfiles"
+alias infraey="cd ~/Documents/dev/ops/eyone/ey-infra"
+alias infra="cd ~/Documents/dev/ops/"
+alias github="cd ~/Documents/dev/github"
+alias dotfiles="cd ~/Documents/dev/github/dotfiles"
 
 
 alias _="sudo"

@@ -2,10 +2,15 @@
 
 set -euo pipefail
 
+clean() {
+  if command -v stop_ssh_agent > /dev/null 2>&1; then
+    stop_ssh_agent
+  fi
+}
+
 install() {	
 
 	local CONF_FILENAME="${CURRENT_DIR}/conf/ssh"
-
 
 	if [ ! -d "${HOME}/.ssh" ] ; then
 		echo ".ssh not exists, ssh installation is not continued"
@@ -17,7 +22,5 @@ install() {
 		mv "${HOME}/.ssh/config" "${HOME}/.ssh/configbackup";
 		find "${HOME}/.ssh/" -name "config_*" -type f -exec cat {} + >> "${HOME}/.ssh/config"
 	fi
-
 }
 
-install

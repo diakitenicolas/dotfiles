@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+
+
+SSH_ENV="${HOME}/.ssh/agent.env"
+
+init_new_agent() {
+  
+  printf "Initializing new SSH agent...\n"
+
+  touch "${SSH_ENV}"
+  chmod 600 "${SSH_ENV}"
+
+  ssh-agent >"$SSH_ENV"
+  source "${SSH_ENV}" > /dev/null
+}
+
+stop_ssh_agent() {
+
+	echo "stop_ssh_agent"
+  if [[ -n "${SSH_AGENT_PID:-}" ]]; then
+    ssh-agent -k
+    rm -rf "${SSH_ENV}"
+  fi
+}
+
+
+start_ssh_agent() {
+
+  stop_ssh_agent
+
+  if [[ -d ${HOME}/.ssh/ ]]; then
+    local AGENT_INITIALIZED="false"
+
+    for key in "${HOME}/.ssh/"*.pub; do
+      if [[ ${AGENT_INITIALIZED} == "false" ]]; then
+        AGENT_INITIALIZED="true"
+        init_new_agent
+      fi
+      ssh-add -k "${key%.pub}"
+    done
+  fi
+}
+
+if [[ -f "${SSH_ENV}" ]] ; then
+   source "${SSH_ENV}" > /dev/null
+else
+
+   start_ssh_agent
+fi
+
+
+# Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards
+[ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')" scp sftp ssh;
+
+

@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-
-#Add maven M2 to path
-export PATH="$M2:$PATH";

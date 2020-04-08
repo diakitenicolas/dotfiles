@@ -29,5 +29,3 @@ install() {
 	pass git pull;
 
 }
-
-install 	

@@ -2,11 +2,12 @@
 
 set -euo pipefail
 
-
 clean() {
   if command -v npm > /dev/null 2>&1; then
     npm cache clean --force
   fi
+  rm -rf "${HOME}/.node-gyp"
+  rm -rf "${HOME}/.node_repl_history"
 }
 
 install() {
@@ -16,21 +17,17 @@ install() {
     exit
   fi
 
-  if ! command -v make > /dev/null 2>&1; then
-    echo "make is required"
-    exit
-  fi
-
   local CONF_FILENAME="${CURRENT_DIR}/conf/node"
   local NODE_VERSION="latest"
 
-  mkdir -p "${HOME}/usr/local/bin"
-  curl -L https://raw.githubusercontent.com/tj/n/master/bin/n -o "${HOME}/usr/local/bin/n"
-  chmod u+x "${HOME}/usr/local/bin/n"
+  rm -rf "${HOME}/n-install"
+  mkdir -p "${HOME}/usr/local/n-install/bin"
+  
+  curl -L https://raw.githubusercontent.com/tj/n/master/bin/n -o "${HOME}/usr/local/n-install/bin/n"
+  
+  chmod u+x "${HOME}/usr/local/n-install/bin/n"
 
   source "${CONF_FILENAME}"
   n "${NODE_VERSION}"
-}
 
-clean
-install
+}

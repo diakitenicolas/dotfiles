@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+if [[ -d ${HOME}/usr/local/go/bin ]]; then
+  export PATH="${HOME}/usr/local/go/bin:${PATH}"
+fi
+
+echo $PATH
+
+if ! command -v go > /dev/null 2>&1; then
+	echo "go not found"
+  return
+fi
+
+export GOPATH="${HOME}/usr/local/gopath"
+export PATH="${GOPATH}/bin:${PATH}"
+
+alias pprof_memory="go tool pprof http://localhost:1080/debug/pprof/profile/heap"

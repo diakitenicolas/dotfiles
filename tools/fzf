@@ -2,8 +2,12 @@
 
 set -euo pipefail
 
+clean() {
+  rm -rf "${HOME}/.fzf"*
+}
+
 install() {
   if command -v brew > /dev/null 2>&1; then
-    brew install tmux reattach-to-user-namespace
+     brew install fzf
   fi
 }

@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+#get diff so fanccy
+install() {
+ 	if command -v brew > /dev/null 2>&1; then
+    	brew install diff-so-fancy
+  	fi
+}

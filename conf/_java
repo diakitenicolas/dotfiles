@@ -1,34 +1,36 @@
 
 #!/usr/bin/env bash
 
-set -euo pipefail
-
 if ! command -v java > /dev/null 2>&1; then
     echo "Java JDK is required"
   	return
 fi
 
 configure() {
- 	local VERSION=$@
 
-	if [ $# -gt 1 ]; then
-		echo "Only one version is needeed"
-	fi
+  local valueFromConfFile=$(readConfFile JDK_VERSION_TO_USE)
 
-  	if [ $# -ne 0 ]; then
-   		removeFromPath '/System/Library/Frameworks/JavaVM.framework/Home/bin'
-   		if [ -n "${JAVA_HOME+x}" ]; then
-	    	removeFromPath $JAVA_HOME
-   		fi
+  if [[ -z "${valueFromConfFile-}" ]]; then
+      printf "JDK_VERSION_TO_USE not set in CONF FILE PROCESS_DATA"
+      return
+  fi
 
-   		export JAVA_HOME=`/usr/libexec/java_home -v $VERSION`
-   		export PATH=$JAVA_HOME/bin:$PATH
-  	fi
+  printf "Current JDK verison is ${valueFromConfFile} ... \n"
+
+  if [[ -n "${valueFromConfFile:-}" ]]; then 
+    clean '/System/Library/Frameworks/JavaVM.framework/Home/bin'
+   	if [ -n "${JAVA_HOME+x}" ]; then
+	   	clean $JAVA_HOME
+   	fi
+
+   	export JAVA_HOME=`/usr/libexec/java_home -v $valueFromConfFile`
+   	export PATH=$JAVA_HOME/bin:$PATH
+  fi
+
  }
 
-removeFromPath() {
+clean() {
   export PATH=$(echo $PATH | sed -E -e "s;:$1;;" -e "s;$1:?;;")
 }
 
-configure 1.8
-
+configure

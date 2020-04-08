@@ -1,6 +1,12 @@
 
 #!/usr/bin/env bash
 
-export N_PREFIX="${HOME}/usr/local"
-export PATH="$N_PREFIX/bin:${PATH}"
-alias npmi="npm install --ignore-scripts"
+N_PREFIX="${HOME}/usr/local/n-install"
+
+if  [[ -d  ${N_PREFIX} ]] ; then
+	export N_PREFIX
+	export PATH="$N_PREFIX/bin:${PATH}"
+	alias npmi="npm install --ignore-scripts"
+fi
+
+
