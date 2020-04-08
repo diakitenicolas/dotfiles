@@ -5,8 +5,11 @@ Dotfiles
 ## Install
 
 mkdir -p ${HOME}/dev/
+
 cd ${HOME}/dev/
+
 git clone https://github.com/diakitenicolas/dotfiles.git
+
 ./dotfiles/init
 
 
