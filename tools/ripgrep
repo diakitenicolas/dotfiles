@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+install() {
+  if command -v brew > /dev/null 2>&1; then
+    brew tap "burntsushi/ripgrep" "https://github.com/BurntSushi/ripgrep.git"
+    brew install ripgrep-bin
+  fi
+}
