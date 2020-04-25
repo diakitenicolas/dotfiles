@@ -1,59 +1,60 @@
 [user]
-	name = Nicolas Diakite
-	email = diakitenicolas@gmail.com
+  name = Nicolas Diakite
+  email = diakitenicolas@gmail.com
 
 [credential]
-	helper = osxkeychain
+  helper = osxkeychain
 
 [core]
-	excludesfile = ~/.gitignore
-	editor = vi
-	filemode = false
-	trustctime = false
-	autocrlf = input
-	untrackedCache = true
-	pager = diff-so-fancy | less --tabs=4 -RFX
+  excludesfile = ~/.gitignore
+  editor = vi
+  filemode = false
+  trustctime = false
+  autocrlf = input
+  untrackedCache = true
+  pager = diff-so-fancy | less --tabs=4 -RFX
 
 
 [alias]
-	sweep = "!f() { git prune && git gc && git branch --merged | egrep -v '(develop|master)' | xargs git branch -d; }; f"
-	
-	co = "!f() { git checkout $(git branch -vv --all | fzf --ansi --reverse -1 -q ${1:-''} | awk '{print $1}' | sed 's|^remotes/origin/||'); }; f"	
-	
+  sweep = "!f() { git prune && git gc && git branch --merged | egrep -v '(develop|master)' | xargs git branch -d; }; f"
+
+	co = "!f() { git checkout $(git branch -vv --all | fzf --ansi --reverse -1 -q ${1:-''} | awk '{print $1}' | sed 's|^remotes/origin/||'); }; f"
+
 	rbm = pull --rebase origin master
-	
+
 	plm = pull --rebase=false origin master
-	
+
 	rbr = "!f() { git rebase \"$1\"}; f"
-	
+
 	commend = commit --amend --no-edit
-	
+
 	pushu = push -u
-	
+
 	pushf = push --force-with-lease
-	
+
 	mnoff = "!f() { git merge \"$1\" --no-ff ; }; f"
 
-	dlocal = "!f() { git branch -D $(git branch -vv | egrep -v '(develop|master)' | fzf --ansi --reverse -1 -q ${1:-''} | awk '{print $1}' | sed 's|^remotes/origin/||'); }; f"
+  dlocal = "!f() { git branch -D $(git branch -vv | egrep -v '(develop|master)' | fzf --ansi --reverse -1 -q ${1:-''} | awk '{print $1}' | sed 's|^remotes/origin/||'); }; f"
 
-	dremote = "!f() { git push origin --delete $(git branch -vv --all | egrep -v '(develop|master)' |fzf --ansi --reverse -1 -q ${1:-''} | awk '{print $1}' | sed 's|^remotes/origin/||'); }; f"
+  dremote = "!f() { git push origin --delete $(git branch -vv --all | egrep -v '(develop|master)' |fzf --ansi --reverse -1 -q ${1:-''} | awk '{print $1}' | sed 's|^remotes/origin/||'); }; f"
 
-	unmerged ="!f() { git branch -r --no-merged | grep -v HEAD | xargs -L1 git --no-pager log --pretty=tformat:'%Cgreen%d%Creset | %h | %an | %Cblue%ar%Creset' -1 | column -t -s '|' ;};f"
-	
-	merged = "!f() { git branch -r --merged | grep -v HEAD | xargs -L1 git --no-pager log --pretty=tformat:'%Cgreen%d%Creset | %h | %an | %Cblue%ar%Creset' -1 | column -t -s '|' ;};f"
-	
-	ss = status -sb
-	
-	d = diff -w
-	
-	unstage = reset HEAD --
-	
-	
-	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
-	
-	filehistory = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --
-	
-	linehistory = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' -L
+  unmerged ="!f() { git branch -r --no-merged | grep -v HEAD | xargs -L1 git --no-pager log --pretty=tformat:'%Cgreen%d%Creset | %h | %an | %Cblue%ar%Creset' -1 | column -t -s '|' ;};f"
+
+  merged = "!f() { git branch -r --merged | grep -v HEAD | xargs -L1 git --no-pager log --pretty=tformat:'%Cgreen%d%Creset | %h | %an | %Cblue%ar%Creset' -1 | column -t -s '|' ;};f"
+
+  ss = status -sb
+
+  d = diff -w
+
+  unstage = reset HEAD --
+
+  lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+
+  filehistory = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --
+
+  linehistory = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' -L
+
+  lgf = "!f(){ git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'  | fzf --reverse --preview='head -$LINES {}';};f"
 
 
 [push]
@@ -67,23 +68,23 @@
 	ui = auto
 
 [color "branch"]
-	current = yellow reverse
-	local = yellow
-	remote = green
+  current = yellow reverse
+  local = yellow
+  remote = green
 
 [color "diff"]
-	meta = yellow bold
-	frag = magenta bold
-	old = red bold
-	new = green bold
+  meta = yellow bold
+  frag = magenta bold
+  old = red bold
+  new = green bold
 
 [color "status"]
-	added = yellow
-	changed = green
-	untracked = cyan
+  added = yellow
+  changed = green
+  untracked = cyan
 
 [color "diff-highlight"]
-	oldNormal = red bold
-	oldHighlight = red bold 52
-	newNormal = green bold
-	newHighlight = green bold 22
+  oldNormal = red bold
+  oldHighlight = red bold 52
+  newNormal = green bold
+  newHighlight = green bold 22
