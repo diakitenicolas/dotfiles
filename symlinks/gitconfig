@@ -20,6 +20,10 @@
 
 	co = "!f() { git checkout $(git branch -vv --all | fzf --ansi --reverse -1 -q ${1:-''} | awk '{print $1}' | sed 's|^remotes/origin/||'); }; f"
 
+  fixupm = "! git commit --fixup $(git log-pretty master..$(git current-branch) | fzf --height 20 --ansi --reverse | awk '{print $1}')"
+
+  fixupd = "! git commit --fixup $(git log-pretty develop..$(git current-branch) | fzf --height 20 --ansi --reverse | awk '{print $1}')"
+
 	rbm = pull --rebase origin master
 
 	plm = pull --rebase=false origin master
@@ -48,7 +52,11 @@
 
   unstage = reset HEAD --
 
-  lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+  current-branch = rev-parse --abbrev-ref HEAD
+
+  log-pretty = log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+
+  lg = log-pretty --graph
 
   filehistory = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --
 
