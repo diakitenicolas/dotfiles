@@ -16,13 +16,8 @@
 
 
 [alias]
-  sweep = "!f() { git prune && git gc && git branch --merged | egrep -v '(develop|master)' | xargs git branch -d; }; f"
 
-	co = "!f() { git checkout $(git branch -vv --all | fzf --ansi --reverse -1 -q ${1:-''} | awk '{print $1}' | sed 's|^remotes/origin/||'); }; f"
-
-  fixupm = "! git commit --fixup $(git log-pretty master..$(git current-branch) | fzf --height 20 --ansi --reverse | awk '{print $1}')"
-
-  fixupd = "! git commit --fixup $(git log-pretty develop..$(git current-branch) | fzf --height 20 --ansi --reverse | awk '{print $1}')"
+  co = "!f() { git checkout $(git branch -vv --all | fzf --ansi --reverse -1 -q ${1:-''} | awk '{print $1}' | sed 's|^remotes/origin/||'); }; f"
 
 	rbm = pull --rebase origin master
 
@@ -37,6 +32,16 @@
 	pushf = push --force-with-lease
 
 	mnoff = "!f() { git merge \"$1\" --no-ff ; }; f"
+
+  sweep = "!f() { git prune && git gc && git branch --merged | egrep -v '(develop|master)' | xargs git branch -d; }; f"
+
+  sweepr= "!f() { git remote prune origin && git branch -vv | egrep -v '(develop|master)' | grep 'origin/.*: gone]' | awk '{print $1}' | xargs git branch -D; }; f"
+
+
+  fixm = "! git commit --fixup $(git log-pretty master..$(git current-branch) | fzf --height 20 --ansi --reverse | awk '{print $1}')"
+
+  fixd = "! git commit --fixup $(git log-pretty develop..$(git current-branch) | fzf --height 20 --ansi --reverse | awk '{print $1}')"
+
 
   dlocal = "!f() { git branch -D $(git branch -vv | egrep -v '(develop|master)' | fzf --ansi --reverse -1 -q ${1:-''} | awk '{print $1}' | sed 's|^remotes/origin/||'); }; f"
 
@@ -56,13 +61,11 @@
 
   log-pretty = log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
 
-  lg = log-pretty --graph
+  lg = "!f() { git log-pretty --graph ; };f"
 
-  filehistory = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --
+  filehistory = "!f() { git log-pretty -- ; };f"
 
-  linehistory = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' -L
-
-  lgf = "!f(){ git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'  | fzf --reverse --preview='head -$LINES {}';};f"
+  linehistory = "!f() { git log-pretty -L ; };f"
 
 
 [push]
